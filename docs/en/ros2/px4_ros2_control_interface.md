@@ -341,7 +341,7 @@ The used types also define the compatibility with different vehicle types.
 The following sections provide a list of supported setpoint types:
 
 - [GotoSetpointType](#go-to-setpoint-gotosetpointtype): Smooth position and (optionally) heading control
-- [FwLateralLongitudinalSetpointType](#fixed-wing-lateral-and-longitudinal-setpoint-fwlaterallongitudinalsetpoint): Direct control of lateral and longitudinal fixed wing dynamics
+- [FwLateralLongitudinalSetpointType](#fixed-wing-lateral-and-longitudinal-setpoint-fwlaterallongitudinalsetpointtype): Direct control of lateral and longitudinal fixed wing dynamics
 - [DirectActuatorsSetpointType](#direct-actuator-control-setpoint-directactuatorssetpointtype): Direct control of motors and flight surface servo setpoints
 
 :::tip
@@ -505,7 +505,7 @@ You can also pass a `FwControlConfiguration` struct along with the setpoint to o
 
 All configuration fields are defined as std::optional<float>. Unset values will default to the PX4 configuration.
 
-Note: Overrides must remain within valid system constraints. For example, throttle limits must stay between [`FW_THR_MIN`](https://docs.px4.io/main/en/advanced_config/parameter_reference.html#FW_THR_MIN) and [`FW_THR_MAX`](https://docs.px4.io/main/en/advanced_config/parameter_reference.html#FW_THR_MAX). PX4 will disregard any configuration overrides that do not respect system constaints.
+Note: Overrides must remain within valid system constraints. For example, throttle limits must stay between [`FW_THR_MIN`](../advanced_config/parameter_reference.md#FW_THR_MIN). and [`FW_THR_MAX`](../advanced_config/parameter_reference.md#FW_THR_MIN). PX4 will disregard any configuration overrides that do not respect system constaints.
 
 #### Direct Actuator Control Setpoint (DirectActuatorsSetpointType)
 
