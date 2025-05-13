@@ -518,6 +518,36 @@ For example to control a quadrotor, you need to set the first 4 motors according
 If you want to control an actuator that does not control the vehicle's motion, but for example a payload servo, see [below](#controlling-an-independent-actuator-servo).
 :::
 
+### Controlling a VTOL (experimental)
+
+The VTOL API (TODO: ADD LINK) provides the functionality to command a transition. This is intended for advanced users.
+
+1. Ensure that both the `TrajectorySetpointType` and the `FwLateralLongitudinalSetpointType` are available to your mode.
+2. Create an instance of px4_ros2::VTOL in the constructor of your mode.
+3. To command a transition, you can use the `to_multicopter()` or `to_fixedwing()` methods on your VTOL object to set the desired state.
+4. During transition, send the following combination of setpoints:
+
+```cpp
+  // Assuming the instance of the px4_ros2::VTOL object is called vtol
+
+  // Send TrajectorySetpointType as follows:
+  Eigen::Vector3f acceleration_sp = vtol.compute_acceleration_setpoint_during_transition();
+  Eigen::Vector3f velocity_sp{NAN, NAN, 0.f};
+
+  _trajectory_setpoint->update(velocity_sp, acceleration_sp);
+
+  // Send FwLateralLongitudinalSetpointType with lateral input to realign vehicle as desired
+
+  float course_sp = 0.F; // North
+
+  _fw_lateral_longitudinal_setpoint->update(NAN, course_sp)
+
+```
+
+This will ensure that the transition is handled properly within PX4. You can optionally pass a deceleration setpoint to `compute_acceleration_setpoint_during_transition()` to be used during backtransitions.
+
+To check the current state of the vehicle, use the `.get_current_state()` method on your `px4_ros2::VTOL` object.
+
 ### Controlling an Independent Actuator/Servo
 
 If you want to control an independent actuator (a servo), follow these steps:
