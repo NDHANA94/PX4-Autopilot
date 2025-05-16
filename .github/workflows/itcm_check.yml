@@ -1,0 +1,36 @@
+name: ITCM check
+
+on:
+  push:
+    branches:
+      - 'main'
+    paths-ignore:
+      - 'docs/**'
+      - '.github/**'
+  pull_request:
+    branches:
+      - '*'
+    paths-ignore:
+      - 'docs/**'
+      - '.github/**'
+
+jobs:
+  check_itcm:
+    name: Checking ${{ matrix.target }}
+    runs-on: [runs-on,runner=8cpu-linux-x64,image=ubuntu24-full-x64,"run-id=${{ github.run_id }}",spot=false]
+    container:
+      image: px4io/px4-dev-nuttx-focal
+    strategy:
+      matrix:
+        target: [px4_fmu-v5x, px4_fmu-v6xrt]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          submodules: recursive
+
+      - name: Git ownership workaround
+        run: git config --system --add safe.directory '*'
+
+      - name: Build Target
+        run: make ${{ matrix.target }}
